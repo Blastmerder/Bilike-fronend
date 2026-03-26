@@ -43,8 +43,10 @@ jobs:
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Check paths
-        command: ["bash", "-c", "apt update && apt install -y tree && tree ./app"]
+        run: bash -c apt update && apt install -y tree && tree ./app
+
       - name: Upload APK to release
         uses: actions/upload-release-asset@v1
         with:
