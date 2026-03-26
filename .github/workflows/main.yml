@@ -2,6 +2,7 @@ name: Build APK and Create Release
 
 on:
   push:
+    branches: [ "main" ]
     tags:
       - 'v*'          # триггер при создании тега v1.0.0 и т.п.
   workflow_dispatch:  # можно запускать вручную
