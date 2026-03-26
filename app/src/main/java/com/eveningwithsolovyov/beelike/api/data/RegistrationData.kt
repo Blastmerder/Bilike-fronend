@@ -1,6 +1,6 @@
 package com.eveningwithsolovyov.beelike.api.data
 
-data class NewUser(
+data class RegistrationData(
     val is_admin: Int,
     val password: String,
     val phone: String,

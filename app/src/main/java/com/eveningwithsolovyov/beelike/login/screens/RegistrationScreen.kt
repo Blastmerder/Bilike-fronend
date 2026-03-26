@@ -22,12 +22,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.eveningwithsolovyov.beelike.api.ApiRepository
+import com.eveningwithsolovyov.beelike.api.UserRepository
 import com.eveningwithsolovyov.beelike.api.RetrofitInstance
 import com.eveningwithsolovyov.beelike.login.viewmodels.RegistrationViewModel
 import com.eveningwithsolovyov.beelike.login.viewmodels.RegistrationViewModelFactory
 import com.eveningwithsolovyov.beelike.navigation.Navigator
-import com.eveningwithsolovyov.beelike.navigation.Route
 import com.eveningwithsolovyov.beelike.ui.components.ButtonDandelion
 import com.eveningwithsolovyov.beelike.ui.components.CheckboxDandelion
 import com.eveningwithsolovyov.beelike.ui.components.PhoneNumberTextField
@@ -41,7 +40,7 @@ fun RegistrationScreen(
     modifier: Modifier = Modifier,
     navigator: Navigator? = null
 ) {
-    val repository = ApiRepository(RetrofitInstance.api)
+    val repository = UserRepository(RetrofitInstance.api)
     val viewModel: RegistrationViewModel = viewModel(
         factory = RegistrationViewModelFactory(repository)
     )
