@@ -28,7 +28,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build release APK
-        run: ./gradlew clean assembleDebugAndroidTest --no-daemon
+        run: ./gradlew clean assembleDebug --no-daemon
         env:
           JAVA_OPTS: -Xmx2g
 
@@ -43,12 +43,13 @@ jobs:
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+      - name: Check paths
+        command: ["bash", "-c", "apt update && apt install -y tree && tree ./app"]
       - name: Upload APK to release
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./app/build/outputs/apk/androidTest/debug.apk
+          asset_path: ./app/build/outputs/apk/debug/app-debug.apk
           asset_name: debug.apk
           asset_content_type: application/vnd.android.package-archive
         env:
