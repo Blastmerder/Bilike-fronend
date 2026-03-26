@@ -1,19 +1,16 @@
 package com.eveningwithsolovyov.beelike.login.viewmodels
 
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
-import com.eveningwithsolovyov.beelike.api.ApiRepository
-import com.eveningwithsolovyov.beelike.api.data.NewUser
+import com.eveningwithsolovyov.beelike.api.UserRepository
+import com.eveningwithsolovyov.beelike.api.data.RegistrationData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class RegistrationViewModel(private val repository: ApiRepository): ViewModel() {
+class RegistrationViewModel(private val repository: UserRepository): ViewModel() {
     private val _state = MutableStateFlow(RegistrationScreenState())
     val state = _state.asStateFlow()
 
@@ -44,7 +41,7 @@ class RegistrationViewModel(private val repository: ApiRepository): ViewModel() 
     fun registerNewUser() {
         viewModelScope.launch {
             repository.registerNewUser(
-                NewUser(
+                RegistrationData(
                     is_admin = 0,
                     password = _state.value.passwordText,
                     phone = _state.value.phoneNumberText,
@@ -55,7 +52,7 @@ class RegistrationViewModel(private val repository: ApiRepository): ViewModel() 
     }
 }
 
-class RegistrationViewModelFactory(private val repository: ApiRepository) : ViewModelProvider.Factory {
+class RegistrationViewModelFactory(private val repository: UserRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         @Suppress("UNCHECKED_CAST")
         return RegistrationViewModel(repository) as T

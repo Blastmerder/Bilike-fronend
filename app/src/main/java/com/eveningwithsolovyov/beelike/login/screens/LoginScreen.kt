@@ -21,7 +21,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.eveningwithsolovyov.beelike.api.RetrofitInstance
+import com.eveningwithsolovyov.beelike.api.UserRepository
 import com.eveningwithsolovyov.beelike.login.viewmodels.LoginViewModel
+import com.eveningwithsolovyov.beelike.login.viewmodels.LoginViewModelFactory
+import com.eveningwithsolovyov.beelike.login.viewmodels.RegistrationViewModel
+import com.eveningwithsolovyov.beelike.login.viewmodels.RegistrationViewModelFactory
 import com.eveningwithsolovyov.beelike.navigation.Navigator
 import com.eveningwithsolovyov.beelike.navigation.Route
 import com.eveningwithsolovyov.beelike.ui.components.ButtonDandelion
@@ -33,9 +38,13 @@ import com.eveningwithsolovyov.beelike.ui.theme.TypographyDandelion
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    viewModel: LoginViewModel = viewModel(),
     navigator: Navigator? = null
 ) {
+    val repository = UserRepository(RetrofitInstance.api)
+    val viewModel: LoginViewModel = viewModel(
+        factory = LoginViewModelFactory(repository)
+    )
+
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     Scaffold { innerPadding ->
@@ -56,7 +65,7 @@ fun LoginScreen(
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = "ВОЙДИТЕ В АККАУНТ",
+                text = "ВОЙДИТЕ В АККАУНТ ${viewModel.userId.intValue}",
                 style = TypographyDandelion.headerSmall
             )
             Spacer(modifier = Modifier.height(40.dp))
@@ -89,7 +98,8 @@ fun LoginScreen(
             ButtonDandelion(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
-                    navigator?.navigate(Route.AppNavigation)
+//                    navigator?.navigate(Route.AppNavigation)
+                    viewModel.loginUser()
                 }
             ) {
                 Text(text = "ВОЙТИ")
