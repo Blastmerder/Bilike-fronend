@@ -13,5 +13,5 @@ sealed interface Route: NavKey {
     data object Registration: Route
 
     @Serializable
-    data object AppNavigation: Route
+    data class AppNavigation(val userId: Int): Route
 }

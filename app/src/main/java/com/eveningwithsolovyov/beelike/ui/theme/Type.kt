@@ -6,6 +6,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontSynthesis
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.eveningwithsolovyov.beelike.R
@@ -77,6 +78,30 @@ object TypographyDandelion {
         fontSize = 14.sp,
         fontFamily = FontFamily.SansSerif,
         fontWeight = FontWeight.W700,
+        letterSpacing = 0.7f.sp
+    )
+    val cardText = TextStyle(
+        color = ColorSchemeDandelion.onPrimary,
+        fontSize = 16.sp,
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.W400,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5f.sp
+    )
+    val cardSupportingText = TextStyle(
+        color = ColorSchemeDandelion.onPrimary,
+        fontSize = 14.sp,
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.W400,
+        lineHeight = 20.sp,
+        letterSpacing = 0.25f.sp
+    )
+    val errorText = TextStyle(
+        color = ColorSchemeDandelion.error,
+        fontSize = 14.sp,
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.W400,
+        textAlign = TextAlign.Center,
         letterSpacing = 0.7f.sp
     )
 }

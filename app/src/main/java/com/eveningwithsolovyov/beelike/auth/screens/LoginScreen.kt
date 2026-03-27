@@ -1,4 +1,4 @@
-package com.eveningwithsolovyov.beelike.login.screens
+package com.eveningwithsolovyov.beelike.auth.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +12,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,33 +20,42 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.eveningwithsolovyov.beelike.api.UserRepository
-import com.eveningwithsolovyov.beelike.api.RetrofitInstance
-import com.eveningwithsolovyov.beelike.login.viewmodels.RegistrationViewModel
-import com.eveningwithsolovyov.beelike.login.viewmodels.RegistrationViewModelFactory
+import com.eveningwithsolovyov.beelike.auth.viewmodels.LoginUiEvent
+import com.eveningwithsolovyov.beelike.network.RetrofitInstance
+import com.eveningwithsolovyov.beelike.network.UserRepository
+import com.eveningwithsolovyov.beelike.auth.viewmodels.LoginViewModel
+import com.eveningwithsolovyov.beelike.auth.viewmodels.LoginViewModelFactory
 import com.eveningwithsolovyov.beelike.navigation.Navigator
+import com.eveningwithsolovyov.beelike.navigation.Route
 import com.eveningwithsolovyov.beelike.ui.components.ButtonDandelion
-import com.eveningwithsolovyov.beelike.ui.components.CheckboxDandelion
-import com.eveningwithsolovyov.beelike.ui.components.PhoneNumberTextField
+import com.eveningwithsolovyov.beelike.ui.components.ErrorText
 import com.eveningwithsolovyov.beelike.ui.components.TextButtonDandelion
 import com.eveningwithsolovyov.beelike.ui.components.TextFieldDandelion
 import com.eveningwithsolovyov.beelike.ui.theme.ColorSchemeDandelion
 import com.eveningwithsolovyov.beelike.ui.theme.TypographyDandelion
 
 @Composable
-fun RegistrationScreen(
+fun LoginScreen(
     modifier: Modifier = Modifier,
     navigator: Navigator? = null
 ) {
     val repository = UserRepository(RetrofitInstance.api)
-    val viewModel: RegistrationViewModel = viewModel(
-        factory = RegistrationViewModelFactory(repository)
+    val viewModel: LoginViewModel = viewModel(
+        factory = LoginViewModelFactory(repository)
     )
 
     val state by viewModel.state.collectAsStateWithLifecycle()
+    LaunchedEffect(viewModel.events) {
+        viewModel.events.collect { event ->
+            when (event) {
+                is LoginUiEvent.NavigateToApp -> {
+                    navigator?.navigateIrrevocably(Route.AppNavigation(event.userId))
+                }
+            }
+        }
+    }
 
     Scaffold { innerPadding ->
         Column(
@@ -60,12 +70,12 @@ fun RegistrationScreen(
         ) {
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = "Создайте свой аккаунт!",
+                text = "Добро пожаловать!",
                 style = TypographyDandelion.headerLarge
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
-                text = "СОЗДАЙТЕ АККАУНТ",
+                text = "ВОЙДИТЕ В АККАУНТ",
                 style = TypographyDandelion.headerSmall
             )
             Spacer(modifier = Modifier.height(40.dp))
@@ -74,20 +84,10 @@ fun RegistrationScreen(
                 value = state.usernameText,
                 onValueChange = {
                     viewModel.updateUsernameText(it)
+                    viewModel.updateErrorTextVisibility(false)
                 },
                 placeholder = {
                     Text(text = "Имя пользователя")
-                }
-            )
-            Spacer(modifier = Modifier.height(20.dp))
-            PhoneNumberTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = state.phoneNumberText,
-                onValueChange = {
-                    viewModel.updatePhoneNumberText(it)
-                },
-                placeholder = {
-                    Text(text = "Номер телефона")
                 }
             )
             Spacer(modifier = Modifier.height(20.dp))
@@ -96,6 +96,7 @@ fun RegistrationScreen(
                 value = state.passwordText,
                 onValueChange = {
                     viewModel.updatePasswordText(it)
+                    viewModel.updateErrorTextVisibility(false)
                 },
                 placeholder = {
                     Text(text = "Пароль")
@@ -106,35 +107,28 @@ fun RegistrationScreen(
                 )
             )
             Spacer(modifier = Modifier.height(30.dp))
-            CheckboxDandelion(
-                modifier = Modifier.fillMaxWidth(),
-                checked = state.agreementChecked,
-                onCheckedChange = {
-                    viewModel.updateAgreementChecked(it)
-                },
-                headlineContent = {
-                    Text(
-                        text = "Я ознакомлен с политикой\nконфиденциальности",
-                        lineHeight = 15.1f.sp
-                    )
-                }
-            )
-            Spacer(modifier = Modifier.height(30.dp))
             ButtonDandelion(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
-                    viewModel.registerNewUser()
-                }
+                    viewModel.loginUser()
+                },
+                enabled = !state.isLoading
             ) {
-                Text(text = "СОЗДАТЬ АККАУНТ")
+                Text(text = "ВОЙТИ")
             }
+            Spacer(modifier = Modifier.height(30.dp))
+            ErrorText(
+                modifier = Modifier.fillMaxWidth(),
+                visible = state.errorTextVisible,
+                text = "Неверный логин или пароль"
+            )
             Spacer(modifier = Modifier.weight(1f))
             TextButtonDandelion(
                 onClick = {
-                    navigator?.goBack()
+                    navigator?.navigate(Route.Registration)
                 }
             ) {
-                Text(text = "ЕСТЬ АККАУНТ? ВОЙДИТЕ!")
+                Text(text = "НЕТ АККАНУТА? ЗАРЕГИСТРИРУЙТЕСЬ!")
             }
             Spacer(modifier = Modifier.weight(1f))
         }
@@ -143,6 +137,6 @@ fun RegistrationScreen(
 
 @Preview
 @Composable
-fun RegistrationScreenPreview() {
-    RegistrationScreen()
+fun LoginScreenPreview() {
+    LoginScreen()
 }

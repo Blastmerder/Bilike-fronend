@@ -14,8 +14,8 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import com.eveningwithsolovyov.beelike.login.screens.LoginScreen
-import com.eveningwithsolovyov.beelike.login.screens.RegistrationScreen
+import com.eveningwithsolovyov.beelike.auth.screens.LoginScreen
+import com.eveningwithsolovyov.beelike.auth.screens.RegistrationScreen
 import com.eveningwithsolovyov.beelike.app_navigation.AppNavigationScreen
 
 @Composable
@@ -52,7 +52,7 @@ fun NavigationRoot(
                 RegistrationScreen(navigator = navigator)
             }
             entry<Route.AppNavigation> {
-                AppNavigationScreen(navigator = navigator)
+                AppNavigationScreen(userId = it.userId, navigator = navigator)
             }
         }
     )

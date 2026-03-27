@@ -19,6 +19,7 @@ import com.eveningwithsolovyov.beelike.ui.theme.TypographyDandelion
 fun ButtonDandelion(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
+    enabled: Boolean = true,
     content: @Composable () -> Unit
 ) {
     ElevatedButton(
@@ -26,9 +27,12 @@ fun ButtonDandelion(
             .height(63.dp)
             .then(modifier),
         onClick = onClick,
+        enabled = enabled,
         colors = ButtonDefaults.elevatedButtonColors(
             containerColor = ColorSchemeDandelion.primary,
-            contentColor = ColorSchemeDandelion.onPrimary
+            contentColor = ColorSchemeDandelion.onPrimary,
+            disabledContainerColor = ColorSchemeDandelion.primaryDarker,
+            disabledContentColor = ColorSchemeDandelion.onPrimary
         ),
         elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp)
     ) {
@@ -43,7 +47,8 @@ fun ButtonDandelion(
 @Composable
 fun ButtonDandelionPreview() {
     ButtonDandelion(
-        onClick = {}
+        onClick = {},
+        enabled = false
     ) {
         Text("ВОЙТИ")
     }

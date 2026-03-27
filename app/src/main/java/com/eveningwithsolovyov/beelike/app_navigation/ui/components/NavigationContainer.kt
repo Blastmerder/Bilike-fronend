@@ -13,9 +13,15 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation3.runtime.NavKey
+import com.eveningwithsolovyov.beelike.app_navigation.data.AppNavRoute
 import com.eveningwithsolovyov.beelike.app_navigation.data.TOP_LEVEL_DESTINATIONS
 import com.eveningwithsolovyov.beelike.ui.theme.ColorSchemeDandelion
 
@@ -47,46 +53,17 @@ fun NavigationContainer(
 fun NavigationContainerPreview() {
     NavigationContainer(
         navigationBar = {
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                NavigationContainerBarItem(
-                    modifier = Modifier
-                        .height(64.dp)
-                        .weight(2f),
-                    onClick = {},
-                    color = ColorSchemeDandelion.primary,
-                    tintColor = ColorSchemeDandelion.onPrimary,
-                    imageVector = Icons.Default.AccountCircle
-                )
-                NavigationContainerBarItem(
-                    modifier = Modifier
-                        .height(64.dp)
-                        .weight(2f),
-                    onClick = {},
-                    color = ColorSchemeDandelion.primaryDarker,
-                    tintColor = ColorSchemeDandelion.onPrimary,
-                    imageVector = Icons.AutoMirrored.Default.List
-                )
-                NavigationContainerBarItem(
-                    modifier = Modifier
-                        .height(64.dp)
-                        .weight(2f),
-                    onClick = {},
-                    color = ColorSchemeDandelion.primaryDark,
-                    tintColor = ColorSchemeDandelion.onPrimary,
-                    imageVector = Icons.Default.Search
-                )
-                Spacer(modifier = Modifier.weight(1f))
+            NavigationContainerBar {
+                TOP_LEVEL_DESTINATIONS.forEach { (route, item) ->
+                    NavigationContainerBarItem(
+                        modifier = Modifier
+                            .weight(2f),
+                        onClick = {},
+                        selected = (route == AppNavRoute.Profile),
+                        imageVector = item.icon
+                    )
+                }
             }
         }
-    ) {
-
-    }
+    ) {}
 }
-
-val ITEM_LEVEL_COLORS = listOf(
-    ColorSchemeDandelion.primary,
-    ColorSchemeDandelion.primaryDarker,
-    ColorSchemeDandelion.primaryDark
-)

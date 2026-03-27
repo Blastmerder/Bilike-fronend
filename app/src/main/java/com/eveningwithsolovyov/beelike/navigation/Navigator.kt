@@ -9,6 +9,11 @@ class Navigator(val backStack: NavBackStack<NavKey>) {
         backStack.add(route)
     }
 
+    fun navigateIrrevocably(route: NavKey) {
+        backStack.add(route)
+        backStack.subList(0, backStack.size - 1).clear()
+    }
+
     fun goBack() {
         backStack.removeLastOrNull()
     }
