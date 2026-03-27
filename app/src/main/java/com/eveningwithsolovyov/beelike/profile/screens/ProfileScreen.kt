@@ -14,15 +14,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.eveningwithsolovyov.beelike.network.RetrofitInstance
+import com.eveningwithsolovyov.beelike.network.UserRepository
 import com.eveningwithsolovyov.beelike.profile.viewmodels.ProfileViewModel
-import com.eveningwithsolovyov.beelike.ui.components.PhoneNumberTextField
-import com.eveningwithsolovyov.beelike.ui.components.TextFieldDandelion
+import com.eveningwithsolovyov.beelike.profile.viewmodels.ProfileViewModelFactory
+import com.eveningwithsolovyov.beelike.ui.components.ListItemDandelion
+import kotlin.Int
 
 @Composable
 fun ProfileScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    userId: Int = -1
 ) {
-    val viewModel: ProfileViewModel = viewModel()
+    val repository = UserRepository(RetrofitInstance.api)
+    val viewModel: ProfileViewModel = viewModel(
+        factory = ProfileViewModelFactory(repository, userId)
+    )
+
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     Column(
@@ -31,36 +39,23 @@ fun ProfileScreen(
             .padding(19.dp)
             .then(modifier)
     ) {
-        TextFieldDandelion(
+        ListItemDandelion(
             modifier = Modifier.fillMaxWidth(),
-            value = state.usernameText,
-            onValueChange = {
-                viewModel.updateUsernameText(it)
+            leadingText = {
+                Text("Имя пользователя:")
             },
-            placeholder = {
-                Text("Имя пользователя")
+            trailingText = {
+                Text(text = state.userData.username)
             }
         )
         Spacer(modifier = Modifier.height(19.dp))
-        TextFieldDandelion(
+        ListItemDandelion(
             modifier = Modifier.fillMaxWidth(),
-            value = state.fullNameText,
-            onValueChange = {
-                viewModel.updateFullNameText(it)
+            leadingText = {
+                Text("Номер телефона:")
             },
-            placeholder = {
-                Text("Полное имя")
-            }
-        )
-        Spacer(modifier = Modifier.height(19.dp))
-        PhoneNumberTextField(
-            modifier = Modifier.fillMaxWidth(),
-            value = state.phoneNumberText,
-            onValueChange = {
-                viewModel.updatePhoneNumberText(it)
-            },
-            placeholder = {
-                Text("Номер телефона")
+            trailingText = {
+                Text(text = state.userData.phoneNumber)
             }
         )
     }

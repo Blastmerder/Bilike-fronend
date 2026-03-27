@@ -70,7 +70,7 @@ class RegistrationViewModel(private val repository: UserRepository): ViewModel()
                     RegistrationData(
                         is_admin = 0,
                         username = _state.value.usernameText,
-                        phone = ("+" + _state.value.phoneNumberText),
+                        phone = _state.value.phoneNumberText,
                         password = _state.value.passwordText,
                     )
                 )

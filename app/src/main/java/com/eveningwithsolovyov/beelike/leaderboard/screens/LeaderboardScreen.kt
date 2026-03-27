@@ -1,15 +1,14 @@
-package com.eveningwithsolovyov.beelike.profile.screens
+package com.eveningwithsolovyov.beelike.leaderboard.screens
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,35 +19,54 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.eveningwithsolovyov.beelike.leaderboard.viewmodels.LeaderboardViewModel
-import com.eveningwithsolovyov.beelike.profile.viewmodels.ProfileViewModel
+import com.eveningwithsolovyov.beelike.leaderboard.viewmodels.LeaderboardViewModelFactory
+import com.eveningwithsolovyov.beelike.network.RetrofitInstance
+import com.eveningwithsolovyov.beelike.network.UserRepository
 import com.eveningwithsolovyov.beelike.ui.components.ListItemDandelion
-import com.eveningwithsolovyov.beelike.ui.components.PhoneNumberTextField
-import com.eveningwithsolovyov.beelike.ui.components.TextFieldDandelion
+import com.eveningwithsolovyov.beelike.ui.theme.ColorSchemeDandelion
 
 @Composable
 fun LeaderboardScreen(
     modifier: Modifier = Modifier
 ) {
-    val viewModel: LeaderboardViewModel = viewModel()
+    val repository = UserRepository(RetrofitInstance.api)
+    val viewModel: LeaderboardViewModel = viewModel(
+        factory = LeaderboardViewModelFactory(repository)
+    )
+
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .then(modifier),
-        contentPadding = PaddingValues(top = 19.dp, start = 19.dp, end = 19.dp),
-        verticalArrangement = Arrangement.spacedBy(19.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        items(state.sortedUsers) { user ->
-            ListItemDandelion(
-                modifier = Modifier.fillMaxWidth(),
-                leadingText = {
-                    Text(text = user.username)
-                },
-                trailingText = {
-                    Text(text = user.points.toString())
-                }
+    if (state.sortedUsers.isNotEmpty()) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 20.dp)
+                .then(modifier),
+            contentPadding = PaddingValues(start = 20.dp, end = 20.dp, bottom = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(19.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            items(state.sortedUsers) { user ->
+                ListItemDandelion(
+                    modifier = Modifier.fillMaxWidth(),
+                    leadingText = {
+                        Text(text = "${user.rank}. ${user.username}")
+                    },
+                    trailingText = {
+                        Text(text = user.points.toString())
+                    }
+                )
+            }
+        }
+    } else {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .then(modifier),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator(
+                color = ColorSchemeDandelion.primaryDark
             )
         }
     }

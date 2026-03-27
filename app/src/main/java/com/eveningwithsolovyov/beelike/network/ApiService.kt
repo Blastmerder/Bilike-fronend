@@ -1,7 +1,9 @@
 package com.eveningwithsolovyov.beelike.network
 
 import com.eveningwithsolovyov.beelike.network.data.LoginData
+import com.eveningwithsolovyov.beelike.network.data.RankedUserResponse
 import com.eveningwithsolovyov.beelike.network.data.RegistrationData
+import com.eveningwithsolovyov.beelike.network.data.UserEventsResponse
 import com.eveningwithsolovyov.beelike.network.data.UserIdData
 import com.eveningwithsolovyov.beelike.network.data.UserIdResponse
 import com.eveningwithsolovyov.beelike.network.data.UserResponse
@@ -20,4 +22,11 @@ interface ApiService {
 
     @POST("get_data")
     suspend fun getData(@Body userIdData: UserIdData): Response<UserResponse>
+
+    @POST("get_user_events")
+    suspend fun getUserEvents(@Body userIdData: UserIdData): Response<UserEventsResponse>
+
+    @GET("get_top_users")
+    suspend fun getTopUsers(): Response<List<RankedUserResponse>>
+
 }

@@ -32,10 +32,11 @@ import com.eveningwithsolovyov.beelike.app_navigation.ui.components.NavigationCo
 import com.eveningwithsolovyov.beelike.app_navigation.ui.components.NavigationContainerBarItem
 import com.eveningwithsolovyov.beelike.app_navigation.viewmodels.AppNavigationViewModel
 import com.eveningwithsolovyov.beelike.app_navigation.viewmodels.AppNavigationViewModelFactory
-import com.eveningwithsolovyov.beelike.events.screens.ActiveEventsScreen
+import com.eveningwithsolovyov.beelike.real_events.screens.ActiveEventsScreen
 import com.eveningwithsolovyov.beelike.network.RetrofitInstance
 import com.eveningwithsolovyov.beelike.network.UserRepository
-import com.eveningwithsolovyov.beelike.profile.screens.LeaderboardScreen
+import com.eveningwithsolovyov.beelike.leaderboard.screens.LeaderboardScreen
+import com.eveningwithsolovyov.beelike.navigation.Route
 import com.eveningwithsolovyov.beelike.profile.screens.ProfileScreen
 import com.eveningwithsolovyov.beelike.ui.theme.ColorSchemeDandelion
 import com.eveningwithsolovyov.beelike.ui.theme.TypographyDandelion
@@ -119,10 +120,15 @@ fun AppNavigationScreen(
                     entries = appNavigationState.toEntries(
                         entryProvider = entryProvider {
                             entry<AppNavRoute.Profile> {
-                                ProfileScreen()
+                                ProfileScreen(userId = userId)
                             }
                             entry<AppNavRoute.ActiveEvents> {
-                                ActiveEventsScreen()
+                                ActiveEventsScreen(
+                                    userId = userId,
+                                    onBottomButtonClick = {
+                                        navigator?.navigate(Route.Registration)
+                                    }
+                                )
                             }
                             entry<AppNavRoute.Leaderboard> {
                                 LeaderboardScreen()

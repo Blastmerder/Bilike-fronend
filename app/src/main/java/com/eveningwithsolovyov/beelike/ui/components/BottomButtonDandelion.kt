@@ -1,8 +1,9 @@
 package com.eveningwithsolovyov.beelike.ui.components
 
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,28 +14,24 @@ import com.eveningwithsolovyov.beelike.ui.theme.ColorSchemeDandelion
 import com.eveningwithsolovyov.beelike.ui.theme.TypographyDandelion
 
 @Composable
-fun ButtonDandelion(
+fun BottomButtonDandelion(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
-    enabled: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    ElevatedButton(
+    Button(
         modifier = Modifier
             .height(63.dp)
             .then(modifier),
         onClick = onClick,
-        enabled = enabled,
-        colors = ButtonDefaults.elevatedButtonColors(
-            containerColor = ColorSchemeDandelion.primary,
-            contentColor = ColorSchemeDandelion.onPrimary,
-            disabledContainerColor = ColorSchemeDandelion.primaryDarker,
-            disabledContentColor = ColorSchemeDandelion.onPrimary
-        ),
-        elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp)
+        shape = RoundedCornerShape(15.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = ColorSchemeDandelion.surface,
+            contentColor = ColorSchemeDandelion.onSurfaceDark
+        )
     ) {
         ProvideTextStyle(
-            value = TypographyDandelion.buttonText,
+            value = TypographyDandelion.bottomButtonText,
             content = content
         )
     }
@@ -42,11 +39,10 @@ fun ButtonDandelion(
 
 @Preview
 @Composable
-fun ButtonDandelionPreview() {
-    ButtonDandelion(
-        onClick = {},
-        enabled = false
+fun BottomButtonDandelionPreview() {
+    BottomButtonDandelion(
+        onClick = {}
     ) {
-        Text("ВОЙТИ")
+        Text(text = "Записаться на мероприятие")
     }
 }

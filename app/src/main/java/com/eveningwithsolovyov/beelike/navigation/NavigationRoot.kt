@@ -54,6 +54,9 @@ fun NavigationRoot(
             entry<Route.AppNavigation> {
                 AppNavigationScreen(userId = it.userId, navigator = navigator)
             }
+            entry<Route.EventSignUp> {
+
+            }
         }
     )
 }

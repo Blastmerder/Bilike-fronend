@@ -1,8 +1,9 @@
-package com.eveningwithsolovyov.beelike.app_navigation.viewmodels
+package com.eveningwithsolovyov.beelike.real_events.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.eveningwithsolovyov.beelike.data.EventData
 import com.eveningwithsolovyov.beelike.network.UserRepository
 import com.eveningwithsolovyov.beelike.network.data.UserIdData
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,24 +11,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class AppNavigationViewModel(
+class ActiveEventsViewModel(
     private val repository: UserRepository,
     private val userId: Int
 ): ViewModel() {
-    private val _state = MutableStateFlow(AppNavigationScreenState())
+    private val _state = MutableStateFlow(ActiveEventsScreenState())
     val state = _state.asStateFlow()
 
     init {
         fetchData()
-    }
-
-    fun updateUserInfo(newUsernameText: String, newPointsText: String) {
-        _state.update { currentState ->
-            currentState.copy(
-                usernameText = newUsernameText,
-                pointsText = newPointsText
-            )
-        }
     }
 
     fun fetchData() {
@@ -36,12 +28,20 @@ class AppNavigationViewModel(
                 return@launch
 
             try {
-                val result = repository.getUserData(UserIdData(id = userId))
+                val result = repository.getUserEvents(UserIdData(id = userId))
                 if (result.status != "error") {
-                    updateUserInfo(
-                        newUsernameText = result.username,
-                        newPointsText = result.points.toString()
-                    )
+                    _state.update { currentState ->
+                        currentState.copy(
+                            userEvents = result.events.map {
+                                EventData(
+                                    name = it.name,
+                                    description = it.description,
+                                    date = it.date,
+                                    attachmentUrl = it.attach
+                                )
+                            }
+                        )
+                    }
                 }
             } catch (e: Exception) {
 
@@ -50,17 +50,16 @@ class AppNavigationViewModel(
     }
 }
 
-class AppNavigationViewModelFactory(
+class ActiveEventsViewModelFactory(
     private val repository: UserRepository,
     private val userId: Int
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         @Suppress("UNCHECKED_CAST")
-        return AppNavigationViewModel(repository, userId) as T
+        return ActiveEventsViewModel(repository, userId) as T
     }
 }
 
-data class AppNavigationScreenState(
-    val usernameText: String = "@username",
-    val pointsText: String = "0"
+data class ActiveEventsScreenState(
+    val userEvents: List<EventData> = listOf()
 )
