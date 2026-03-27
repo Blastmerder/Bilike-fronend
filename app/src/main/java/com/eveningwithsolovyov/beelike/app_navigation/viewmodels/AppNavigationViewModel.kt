@@ -1,8 +1,5 @@
 package com.eveningwithsolovyov.beelike.app_navigation.viewmodels
 
-import android.app.Application
-import android.content.Context
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope

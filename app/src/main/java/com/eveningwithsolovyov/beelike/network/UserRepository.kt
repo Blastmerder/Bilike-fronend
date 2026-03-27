@@ -5,7 +5,6 @@ import com.eveningwithsolovyov.beelike.network.data.RegistrationData
 import com.eveningwithsolovyov.beelike.network.data.UserIdData
 import com.eveningwithsolovyov.beelike.network.data.UserIdResponse
 import com.eveningwithsolovyov.beelike.network.data.UserResponse
-import retrofit2.Response
 
 class UserRepository(private val apiService: ApiService) {
     suspend fun loginUser(loginData: LoginData): UserIdResponse {

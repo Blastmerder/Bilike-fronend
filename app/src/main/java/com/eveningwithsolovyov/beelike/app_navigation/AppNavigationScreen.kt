@@ -35,7 +35,7 @@ import com.eveningwithsolovyov.beelike.app_navigation.viewmodels.AppNavigationVi
 import com.eveningwithsolovyov.beelike.events.screens.ActiveEventsScreen
 import com.eveningwithsolovyov.beelike.network.RetrofitInstance
 import com.eveningwithsolovyov.beelike.network.UserRepository
-import com.eveningwithsolovyov.beelike.profile.screens.LeaderboardScreen
+import com.eveningwithsolovyov.beelike.leaderboard.screens.LeaderboardScreen
 import com.eveningwithsolovyov.beelike.profile.screens.ProfileScreen
 import com.eveningwithsolovyov.beelike.ui.theme.ColorSchemeDandelion
 import com.eveningwithsolovyov.beelike.ui.theme.TypographyDandelion

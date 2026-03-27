@@ -27,7 +27,7 @@ fun ActiveEventsScreen(
             .padding(top = 20.dp)
             .then(modifier),
         columns = GridCells.Fixed(count = 2),
-        contentPadding = PaddingValues(horizontal = 20.dp),
+        contentPadding = PaddingValues(20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
         horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {
@@ -60,115 +60,7 @@ fun ActiveEventsScreen(
                     )
                 },
                 text = {
-                    Text(text = "Хуекция")
-                },
-                supportingText = {
-                    Text(text = "Дата добавления:\n28/03/2026")
-                }
-            )
-        }
-        item {
-            EventCard(
-                onClick = {},
-                content = {
-                    Image(
-                        modifier = Modifier.fillMaxWidth(),
-                        painter = painterResource(R.drawable.card_placeholder_1),
-                        contentDescription = null
-                    )
-                },
-                text = {
-                    Text(text = "Лекция")
-                },
-                supportingText = {
-                    Text(text = "Дата добавления:\n27/03/2026")
-                }
-            )
-        }
-        item {
-            EventCard(
-                onClick = {},
-                content = {
-                    Image(
-                        modifier = Modifier.fillMaxWidth(),
-                        painter = painterResource(R.drawable.card_placeholder_2),
-                        contentDescription = null
-                    )
-                },
-                text = {
-                    Text(text = "Хуекция")
-                },
-                supportingText = {
-                    Text(text = "Дата добавления:\n28/03/2026")
-                }
-            )
-        }
-        item {
-            EventCard(
-                onClick = {},
-                content = {
-                    Image(
-                        modifier = Modifier.fillMaxWidth(),
-                        painter = painterResource(R.drawable.card_placeholder_1),
-                        contentDescription = null
-                    )
-                },
-                text = {
-                    Text(text = "Лекция")
-                },
-                supportingText = {
-                    Text(text = "Дата добавления:\n27/03/2026")
-                }
-            )
-        }
-        item {
-            EventCard(
-                onClick = {},
-                content = {
-                    Image(
-                        modifier = Modifier.fillMaxWidth(),
-                        painter = painterResource(R.drawable.card_placeholder_2),
-                        contentDescription = null
-                    )
-                },
-                text = {
-                    Text(text = "Хуекция")
-                },
-                supportingText = {
-                    Text(text = "Дата добавления:\n28/03/2026")
-                }
-            )
-        }
-        item {
-            EventCard(
-                onClick = {},
-                content = {
-                    Image(
-                        modifier = Modifier.fillMaxWidth(),
-                        painter = painterResource(R.drawable.card_placeholder_1),
-                        contentDescription = null
-                    )
-                },
-                text = {
-                    Text(text = "Лекция")
-                },
-                supportingText = {
-                    Text(text = "Дата добавления:\n27/03/2026")
-                }
-            )
-        }
-        item {
-            EventCard(
-                onClick = {},
-                content = {
-                    Image(
-                        modifier = Modifier.fillMaxWidth(),
-                        painter = painterResource(R.drawable.card_placeholder_2),
-                        contentDescription = null
-                    )
-                },
-                text = {
-                    Text(text = "Хуекция")
+                    Text(text = "Мероприятие")
                 },
                 supportingText = {
                     Text(text = "Дата добавления:\n28/03/2026")
