@@ -1,4 +1,4 @@
-package com.eveningwithsolovyov.beelike.api.data
+package com.eveningwithsolovyov.beelike.network.data
 
 data class UserIdResponse(
     val status: String,

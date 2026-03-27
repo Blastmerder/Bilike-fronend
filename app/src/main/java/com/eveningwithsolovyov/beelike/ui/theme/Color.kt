@@ -16,4 +16,5 @@ object ColorSchemeDandelion {
     val onSurface = Color(0xFF3F414E)
     val onSurfaceVariant = Color(0xFFA1A4B2)
     val onPrimary = Color(0xFFF6F1FB)
+    val error = Color(0xFFFF0000)
 }
