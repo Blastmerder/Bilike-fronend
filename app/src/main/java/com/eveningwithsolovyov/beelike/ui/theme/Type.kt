@@ -48,6 +48,13 @@ object TypographyDandelion {
         fontWeight = FontWeight.W700,
         letterSpacing = 0.7f.sp
     )
+    val bottomButtonText = TextStyle(
+        color = ColorSchemeDandelion.onSurfaceDark,
+        fontSize = 16.sp,
+        fontFamily = FontFamily.SansSerif,
+        fontWeight = FontWeight.W400,
+        letterSpacing = 0.5f.sp
+    )
     val cardText = TextStyle(
         color = ColorSchemeDandelion.onPrimary,
         fontSize = 16.sp,

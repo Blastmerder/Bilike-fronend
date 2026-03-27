@@ -1,4 +1,4 @@
-package com.eveningwithsolovyov.beelike.events.ui.components
+package com.eveningwithsolovyov.beelike.real_events.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

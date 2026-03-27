@@ -12,9 +12,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class LoginViewModel(
-    private val repository: UserRepository
-): ViewModel() {
+class LoginViewModel(private val repository: UserRepository): ViewModel() {
     private val _state = MutableStateFlow(LoginScreenState())
     val state = _state.asStateFlow()
 
