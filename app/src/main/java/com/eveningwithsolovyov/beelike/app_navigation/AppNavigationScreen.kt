@@ -126,7 +126,7 @@ fun AppNavigationScreen(
                                 ActiveEventsScreen(
                                     userId = userId,
                                     onBottomButtonClick = {
-                                        navigator?.navigate(Route.Registration)
+                                        // navigator?.navigate(Route.Registration)
                                     }
                                 )
                             }

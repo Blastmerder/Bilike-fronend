@@ -13,9 +13,11 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
@@ -31,6 +33,7 @@ import com.eveningwithsolovyov.beelike.real_events.viewmodels.ActiveEventsViewMo
 import com.eveningwithsolovyov.beelike.real_events.viewmodels.ActiveEventsViewModelFactory
 import com.eveningwithsolovyov.beelike.ui.components.BottomButtonDandelion
 import com.eveningwithsolovyov.beelike.ui.theme.ColorSchemeDandelion
+import com.eveningwithsolovyov.beelike.ui.theme.TypographyDandelion
 
 @Composable
 fun ActiveEventsScreen(
@@ -50,32 +53,61 @@ fun ActiveEventsScreen(
             .fillMaxSize()
             .then(modifier),
     ) {
-        LazyVerticalGrid(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .padding(top = 20.dp),
-            columns = GridCells.Fixed(count = 2),
-            contentPadding = PaddingValues(start = 20.dp, end = 20.dp, bottom = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp),
-            horizontalArrangement = Arrangement.spacedBy(20.dp)
-        ) {
-            items(state.userEvents) { event ->
-                EventCard(
-                    onClick = {},
-                    content = {
-                        Image(
-                            modifier = Modifier.fillMaxWidth(),
-                            painter = painterResource(R.drawable.card_placeholder_1),
-                            contentDescription = null
+        if (!state.isLoading) {
+            if (state.userEvents.isNotEmpty()) {
+                LazyVerticalGrid(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .padding(top = 20.dp),
+                    columns = GridCells.Fixed(count = 2),
+                    contentPadding = PaddingValues(start = 20.dp, end = 20.dp, bottom = 20.dp),
+                    verticalArrangement = Arrangement.spacedBy(20.dp),
+                    horizontalArrangement = Arrangement.spacedBy(20.dp)
+                ) {
+                    items(state.userEvents) { event ->
+                        EventCard(
+                            onClick = {},
+                            content = {
+                                Image(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    painter = painterResource(R.drawable.card_placeholder_1),
+                                    contentDescription = null
+                                )
+                            },
+                            text = {
+                                Text(text = event.name)
+                            },
+                            supportingText = {
+                                Text(text = event.description)
+                            }
                         )
-                    },
-                    text = {
-                        Text(text = event.name)
-                    },
-                    supportingText = {
-                        Text(text = event.description)
                     }
+                }
+            } else {
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth()
+                        .then(modifier),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Список пуст",
+                        style = TypographyDandelion.cardText
+                    )
+                }
+            }
+        } else {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .then(modifier),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(
+                    color = ColorSchemeDandelion.primaryDark
                 )
             }
         }

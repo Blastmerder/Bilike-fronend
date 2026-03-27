@@ -22,11 +22,18 @@ class ActiveEventsViewModel(
         fetchData()
     }
 
+    fun updateLoadingState(newValue: Boolean) {
+        _state.update { currentState ->
+            currentState.copy(isLoading = newValue)
+        }
+    }
+
     fun fetchData() {
         viewModelScope.launch {
             if (userId == -1)
                 return@launch
 
+            updateLoadingState(true)
             try {
                 val result = repository.getUserEvents(UserIdData(id = userId))
                 if (result.status != "error") {
@@ -46,6 +53,7 @@ class ActiveEventsViewModel(
             } catch (e: Exception) {
 
             }
+            updateLoadingState(false)
         }
     }
 }
@@ -61,5 +69,6 @@ class ActiveEventsViewModelFactory(
 }
 
 data class ActiveEventsScreenState(
-    val userEvents: List<EventData> = listOf()
+    val userEvents: List<EventData> = listOf(),
+    val isLoading: Boolean = true
 )

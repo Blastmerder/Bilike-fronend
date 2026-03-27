@@ -18,8 +18,15 @@ class LeaderboardViewModel(private val repository: UserRepository): ViewModel() 
         fetchData()
     }
 
+    fun updateLoadingState(newValue: Boolean) {
+        _state.update { currentState ->
+            currentState.copy(isLoading = newValue)
+        }
+    }
+
     fun fetchData() {
         viewModelScope.launch {
+            updateLoadingState(true)
             try {
                 val result = repository.getRankedUsersData()
                 _state.update { currentState ->
@@ -37,6 +44,7 @@ class LeaderboardViewModel(private val repository: UserRepository): ViewModel() 
             } catch (e: Exception) {
 
             }
+            updateLoadingState(false)
         }
     }
 }
@@ -51,5 +59,6 @@ class LeaderboardViewModelFactory(
 }
 
 data class LeaderboardScreenState(
-    val sortedUsers: List<RankedUserData> = listOf()
+    val sortedUsers: List<RankedUserData> = listOf(),
+    val isLoading: Boolean = true
 )
