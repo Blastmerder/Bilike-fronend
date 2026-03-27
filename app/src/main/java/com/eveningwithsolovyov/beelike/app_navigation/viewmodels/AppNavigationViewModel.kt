@@ -61,6 +61,6 @@ class AppNavigationViewModelFactory(
 }
 
 data class AppNavigationScreenState(
-    val usernameText: String = "@username",
-    val pointsText: String = "0"
+    val usernameText: String = "USERNAME",
+    val pointsText: String = "POINTS_COUNT"
 )

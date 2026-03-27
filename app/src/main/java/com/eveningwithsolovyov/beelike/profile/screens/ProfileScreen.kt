@@ -55,7 +55,16 @@ fun ProfileScreen(
                 Text("Номер телефона:")
             },
             trailingText = {
-                Text(text = state.userData.phoneNumber)
+                var formattedText: String = ""
+                for (i in state.userData.phoneNumber.indices) {
+                    if (i == 0) formattedText += "+"
+                    formattedText += state.userData.phoneNumber[i]
+                    if (i == 0) formattedText += " ("
+                    if (i == 3) formattedText += ") "
+                    if (i == 6) formattedText += "-"
+                    if (i == 8) formattedText += "-"
+                }
+                Text(text = formattedText)
             }
         )
     }

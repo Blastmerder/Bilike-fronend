@@ -24,6 +24,7 @@ import com.eveningwithsolovyov.beelike.network.RetrofitInstance
 import com.eveningwithsolovyov.beelike.network.UserRepository
 import com.eveningwithsolovyov.beelike.ui.components.ListItemDandelion
 import com.eveningwithsolovyov.beelike.ui.theme.ColorSchemeDandelion
+import com.eveningwithsolovyov.beelike.ui.theme.TypographyDandelion
 
 @Composable
 fun LeaderboardScreen(
@@ -36,25 +37,39 @@ fun LeaderboardScreen(
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    if (state.sortedUsers.isNotEmpty()) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 20.dp)
-                .then(modifier),
-            contentPadding = PaddingValues(start = 20.dp, end = 20.dp, bottom = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(19.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            items(state.sortedUsers) { user ->
-                ListItemDandelion(
-                    modifier = Modifier.fillMaxWidth(),
-                    leadingText = {
-                        Text(text = "${user.rank}. ${user.username}")
-                    },
-                    trailingText = {
-                        Text(text = user.points.toString())
-                    }
+    if (!state.isLoading) {
+        if (state.sortedUsers.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 20.dp)
+                    .then(modifier),
+                contentPadding = PaddingValues(start = 20.dp, end = 20.dp, bottom = 20.dp),
+                verticalArrangement = Arrangement.spacedBy(19.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                items(state.sortedUsers) { user ->
+                    ListItemDandelion(
+                        modifier = Modifier.fillMaxWidth(),
+                        leadingText = {
+                            Text(text = "${user.rank}. ${user.username}")
+                        },
+                        trailingText = {
+                            Text(text = user.points.toString())
+                        }
+                    )
+                }
+            }
+        } else {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .then(modifier),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Список пуст",
+                    style = TypographyDandelion.cardText
                 )
             }
         }
